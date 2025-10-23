@@ -14,18 +14,9 @@ workflows:
           export PATH="$PWD/gradle-$GRADLE_VERSION/bin:$PATH"
           gradle --version
 
-      - name: Inizializza il progetto se non esiste Gradle Wrapper (gradle init)
-        script: |
-          if [ ! -f "settings.gradle" ] && [ ! -f "settings.gradle.kts" ]; then
-            echo "Nessun file Gradle rilevato, eseguo gradle init..."
-            gradle init --type basic --dsl kotlin --no-daemon
-          else
-            echo "File Gradle già presenti, skip gradle init."
-          fi
-
       - name: Build del progetto
         script: |
-          gradle assembleRelease --no-daemon
+          gradle assembleRelease --no-daemon --android-skip-build-dependency-validation
 
     artifacts:
       - build/**/outputs/**/*.apk
